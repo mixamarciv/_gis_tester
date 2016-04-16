@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{.CurDateTime}}</title>
+    <link rel='stylesheet' href='/files/css/all.styles.min.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  </head>
+<body>
+
+	
+<!--
+<nav class="navbar navbar-default navbar-static-top" role="navigation" > 
+<div class="container">
+  <div class="navbar-header">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="navbar-brand" href="/">Меню</a>
+</div>
+
+<div class="navbar-collapse collapse navbar-responsive-collapse">
+  
+  <ul class="nav navbar-nav">
+		<li><a href="/post/view">view</a></li>
+		<li><a href="/other/api_btce_client">api_btce_client</a></li>
+		<li class='dropdown'>
+		<a href="#" class='dropdown-toggle' data-toggle='dropdown'>БД (4)<b class='caret'></b></a>
+		<ul class='dropdown-menu'>
+				<li><a href="/post">БД (4)</a></li>
+				<li class='divider'></li>
+				<li><a href="/post?db=1">post_db</a></li>
+				<li><a href="/post?db=2">АДминистрирование</a></li>
+				<li><a href="/post?db=3">programming</a></li>
+				<li><a href="/post?db=4">workdb</a></li>
+		</ul>
+		<li><a href="/process_info">process_info</a></li>
+		<li class='dropdown'>
+		<a href="#" class='dropdown-toggle' data-toggle='dropdown'>filenavigator<b class='caret'></b></a>
+		<ul class='dropdown-menu'>
+				<li><a href="/programs/filenavigator">filenavigator</a></li>
+				<li class='divider'></li>
+				<li><a href="/programs/filenavigator/download_file">download_file</a></li>
+				<li><a href="/programs/filenavigator/execute_file">execute_file</a></li>
+		</ul>
+		<li><a href="/programs/run_test_app">run_test_app</a></li>
+  </ul>
+  
+
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="#">Link</a></li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </li>
+  </ul>
+  
+</div>
+</nav>
+-->
+
+<form method="POST" action="/post/edit" class="form-horizontal" >
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-2">
+			<div class="input-group">
+				<span class="input-group-addon input-sm">ver:</span>
+			    <select class="form-control input-sm" id="template_ver">
+		          <option>1</option>
+		          <option selected>2</option>
+		          <option>3</option>
+		          <option>4</option>
+		          <option>5</option>
+		        </select>
+			</div>
+		</div>
+		<div class="col-md-10">
+			<div class="input-group">
+				<span class="input-group-addon input-sm">file:</span>
+			    <select class="form-control input-sm" id="template_file">
+		          <option>1</option>
+		          <option>2</option>
+		          <option>3</option>
+		          <option>4</option>
+		          <option>5</option>
+		        </select>
+			</div>
+		</div>
+	</div>
+	<br>
+
+  <div class="row">
+	<div class="col-md-4">
+		<div class="input-group">
+				<span class="input-group-addon input-sm">data:</span>
+			    <select class="form-control input-sm" id="data_file">
+		          <option>1</option>
+		          <option>2</option>
+		          <option>3</option>
+		          <option>4</option>
+		          <option>5</option>
+		        </select>
+		</div>
+		<br>
+	</div>
+	<div class="col-md-4">
+		<a href="#" class="btn btn-default" id="render_query">render query</a>
+		<br>
+	</div>
+	<div class="col-md-4">
+		<a href="#" class="btn btn-default" id="send_query">send query</a>
+		<br>
+	</div>
+  </div>
+  <div class="row">
+	<div class="col-md-4">
+		<textarea class="form-control" rows="7" placeholder="" id=template_data>template data</textarea>
+		<br>
+		<textarea class="form-control" rows="20" placeholder="" id=template_xml>template xml</textarea>
+	</div>
+	<div class="col-md-4">
+		<textarea class="form-control" rows="7" placeholder="" id=render_data>render data</textarea>
+		<br>
+		<textarea class="form-control" rows="20" placeholder="" id=render_xml>render xml</textarea>
+	</div>
+	<div class="col-md-4">
+		<textarea class="form-control" rows="7" placeholder="" id=result_data>result data</textarea>
+		<br>
+		<textarea class="form-control" rows="20" placeholder="" id=result_xml>result xml</textarea>
+	</div>
+  </div>
+</div>
+</form>
+
+<script language="javascript" src="/files/js/all.scripts.min.js"></script>
+<script language="javascript" src="/files/js/my_scripts.js"></script>
+</body>
+</html>

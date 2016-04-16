@@ -1,0 +1,125 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/" xmlns:nsi="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/nsi-common/" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header>
+      <ns:ISRequestHeader>
+         <ns:Date>{{.CurDateTime}}</ns:Date>
+         <ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>
+      </ns:ISRequestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <nsi:exportNsiListRequest Id="?">
+         <!--Optional:-->
+         <xd:Signature Id="?">
+            <xd:SignedInfo Id="?">
+               <xd:CanonicalizationMethod Algorithm="?">
+                  e
+                  <!--You may enter ANY elements at this point-->
+                  gero
+               </xd:CanonicalizationMethod>
+               <xd:SignatureMethod Algorithm="?">
+                  cum
+                  <!--Optional:-->
+                  <xd:HMACOutputLength>?</xd:HMACOutputLength>
+                  sonoras
+                  <!--You may enter ANY elements at this point-->
+                  aeoliam
+               </xd:SignatureMethod>
+               <!--1 or more repetitions:-->
+               <xd:Reference Id="?" URI="?" Type="?">
+                  <!--Optional:-->
+                  <xd:Transforms>
+                     <!--1 or more repetitions:-->
+                     <xd:Transform Algorithm="?">
+                        quae
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <!--You may enter ANY elements at this point-->
+                        <xd:XPath>?</xd:XPath>
+                        ventos
+                     </xd:Transform>
+                  </xd:Transforms>
+                  <xd:DigestMethod Algorithm="?">
+                     verrantque
+                     <!--You may enter ANY elements at this point-->
+                     temperat
+                  </xd:DigestMethod>
+                  <xd:DigestValue>cid:1320025209670</xd:DigestValue>
+               </xd:Reference>
+            </xd:SignedInfo>
+            <xd:SignatureValue Id="?">cid:486022719082</xd:SignatureValue>
+            <!--Optional:-->
+            <xd:KeyInfo Id="?">
+               per
+               <!--You have a CHOICE of the next 8 items at this level-->
+               <xd:KeyName>?</xd:KeyName>
+               <xd:KeyValue>
+                  turbine
+                  <!--You have a CHOICE of the next 3 items at this level-->
+                  <xd:DSAKeyValue>
+                     <xd:P>cid:499298544534</xd:P>
+                     <xd:Q>cid:905410431461</xd:Q>
+                     <!--Optional:-->
+                     <xd:G>cid:331829292790</xd:G>
+                     <xd:Y>cid:303143281350</xd:Y>
+                     <!--Optional:-->
+                     <xd:J>cid:1415187384281</xd:J>
+                     <xd:Seed>cid:772556095556</xd:Seed>
+                     <xd:PgenCounter>cid:665605410951</xd:PgenCounter>
+                  </xd:DSAKeyValue>
+                  <xd:RSAKeyValue>
+                     <xd:Modulus>cid:508069925688</xd:Modulus>
+                     <xd:Exponent>cid:1132085876931</xd:Exponent>
+                  </xd:RSAKeyValue>
+                  <!--You may enter ANY elements at this point-->
+                  circum
+               </xd:KeyValue>
+               <xd:RetrievalMethod URI="?" Type="?">
+                  <!--Optional:-->
+                  <xd:Transforms>
+                     <!--1 or more repetitions:-->
+                     <xd:Transform Algorithm="?">
+                        regemque
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <!--You may enter ANY elements at this point-->
+                        <xd:XPath>?</xd:XPath>
+                        nimborum
+                     </xd:Transform>
+                  </xd:Transforms>
+               </xd:RetrievalMethod>
+               <xd:X509Data>
+                  <!--You have a CHOICE of the next 6 items at this level-->
+                  <xd:X509IssuerSerial>
+                     <xd:X509IssuerName>?</xd:X509IssuerName>
+                     <xd:X509SerialNumber>?</xd:X509SerialNumber>
+                  </xd:X509IssuerSerial>
+                  <xd:X509SKI>cid:394019599997</xd:X509SKI>
+                  <xd:X509SubjectName>?</xd:X509SubjectName>
+                  <xd:X509Certificate>cid:1132052143165</xd:X509Certificate>
+                  <xd:X509CRL>cid:1116794069448</xd:X509CRL>
+                  <!--You may enter ANY elements at this point-->
+               </xd:X509Data>
+               <xd:PGPData>
+                  <!--You have a CHOICE of the next 2 items at this level-->
+                  <xd:PGPKeyID>cid:997666620339</xd:PGPKeyID>
+                  <!--Optional:-->
+                  <xd:PGPKeyPacket>cid:635809832027</xd:PGPKeyPacket>
+                  <!--You may enter ANY elements at this point-->
+                  <xd:PGPKeyPacket>cid:839082157501</xd:PGPKeyPacket>
+                  <!--You may enter ANY elements at this point-->
+               </xd:PGPData>
+               <xd:SPKIData>
+                  <xd:SPKISexp>cid:179379719804</xd:SPKISexp>
+                  <!--You may enter ANY elements at this point-->
+               </xd:SPKIData>
+               <xd:MgmtData>?</xd:MgmtData>
+               <!--You may enter ANY elements at this point-->
+               fremunt
+            </xd:KeyInfo>
+            <!--Zero or more repetitions:-->
+            <xd:Object Id="?" MimeType="?" Encoding="?">
+               foedere
+               <!--You may enter ANY elements at this point-->
+               ferant
+            </xd:Object>
+         </xd:Signature>
+      </nsi:exportNsiListRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

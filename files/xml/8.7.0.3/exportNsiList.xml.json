@@ -1,0 +1,10 @@
+"url": "{{index .Data "host"}}/ext-bus-nsi-service/services/Nsi",
+"type": "xml",
+"headers": {
+	"SOAPAction":"\"urn:exportNsiItem\"",
+	"Content-Type": "text/xml;charset=UTF-8"
+},
+"basicAuth":{
+  "user":"lanit",
+  "pass":"0rLju9WtE5dkFm9lShTMO7Z5N"
+}
