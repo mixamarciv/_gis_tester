@@ -1,0 +1,11 @@
+"url1": "{{index .Data "host"}}/ext-bus-organization-service/services/Organization",
+"url": "{{index .Data "host"}}/ext-bus-org-registry-service/services/OrgRegistry",
+"type": "xml",
+"headers": {
+	"SOAPAction":"\"urn:exportDataProvider\"",
+	"Content-Type": "text/xml;charset=UTF-8"
+},
+"basicAuth":{
+  "user":"lanit",
+  "pass":"0rLju9WtE5dkFm9lShTMO7Z5N"
+}

@@ -1,0 +1,24 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/" xmlns:org="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/organizations-registry-common/" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header>
+      <ns:ISRequestHeader>
+         <ns:Date>{{CurDateTime1}}</ns:Date>
+         <ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>
+      </ns:ISRequestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <org:exportOrgRegistryRequest>
+         <!--1 to 100 repetitions:-->
+         <org:SearchCriteria>
+            <!--You have a CHOICE of the next 4 items at this level-->
+            <ns:OGRNIP>{{index .Data "ogrnip"}}</ns:OGRNIP>
+            <ns:OGRN>{{index .Data "ogrn"}}</ns:OGRN>
+            <!--Optional:-->
+            <ns:KPP>{{index .Data "kpp"}}</ns:KPP>
+            <ns:orgVersionGUID>{{RandomGUID}}</ns:orgVersionGUID>
+            <ns:orgRootEntityGUID>{{RandomGUID}}</ns:orgRootEntityGUID>
+            <!--Optional:-->
+            <org:isRegistered>true</org:isRegistered>
+         </org:SearchCriteria>
+      </org:exportOrgRegistryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

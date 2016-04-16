@@ -22,7 +22,9 @@ func ajax_renderquery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	funcMap := template.FuncMap{
-		"RandomGUID": mf.Uuid,
+		"RandomGUID":   mf.Uuid,
+		"CurDateTime1": func() string { s, _ := mf.StrReplaceRegexp(mf.CurTimeStr(), " ", "T"); return s },
+		"CurDateTime2": mf.CurTimeStr,
 	}
 
 	type UserVars struct {
