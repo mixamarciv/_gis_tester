@@ -9,6 +9,8 @@ import (
 
 	"fmt"
 	mf "gofncstd3000"
+
+	"errors"
 )
 
 func init() {
@@ -25,7 +27,12 @@ func ajax_sendquery(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json, err := mf.FromJson([]byte(data))
-	if checkError("FromJson error", err, w) {
+	if checkErrorJSON("FromJson error", err, w) {
+		return
+	}
+
+	if _, ok := json["url"].(string); !ok {
+		checkErrorJSON("json param \"url\" not found", errors.New("json param1 \"url\" not found!!"), w)
 		return
 	}
 
@@ -61,7 +68,7 @@ func ajax_sendquery(w http.ResponseWriter, r *http.Request) {
 	ret = append(ret, t1)
 
 	json_ret, err := mf.ToJson(ret)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 

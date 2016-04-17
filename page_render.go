@@ -16,8 +16,8 @@ func init() {
 
 //генерим запрос на основе выбранного шаблона и выбранного набора данных
 func ajax_renderquery(w http.ResponseWriter, r *http.Request) {
-	json, err := getjson_from_datafile(r)
-	if checkError("getjson_from_datafile error", err, w) {
+	json, err := getjson_from_datafiles(r)
+	if checkErrorJSON("getjson_from_datafile error", err, w) {
 		return
 	}
 
@@ -44,23 +44,23 @@ func ajax_renderquery(w http.ResponseWriter, r *http.Request) {
 
 	//рендерим xml
 	t1, err := template.New("xml").Funcs(funcMap).Parse(r.FormValue("xml"))
-	if checkError("parse template1 error", err, w) {
+	if checkErrorJSON("parse template1 error", err, w) {
 		return
 	}
 	buff1 := new(bytes.Buffer)
 	err = t1.Execute(buff1, vars)
-	if checkError("render template error", err, w) {
+	if checkErrorJSON("render template error", err, w) {
 		return
 	}
 
 	//рендерим headers
 	t2, err := template.New("data").Funcs(funcMap).Parse(r.FormValue("data"))
-	if checkError("parse template2 error", err, w) {
+	if checkErrorJSON("parse template2 error", err, w) {
 		return
 	}
 	buff2 := new(bytes.Buffer)
 	err = t2.Execute(buff2, vars)
-	if checkError("render template error", err, w) {
+	if checkErrorJSON("render template error", err, w) {
 		return
 	}
 
@@ -70,7 +70,7 @@ func ajax_renderquery(w http.ResponseWriter, r *http.Request) {
 	ret = append(ret, string(buff2.Bytes()))
 
 	json_ret, err := mf.ToJson(ret)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 
@@ -79,14 +79,14 @@ func ajax_renderquery(w http.ResponseWriter, r *http.Request) {
 }
 
 //загрузка json из файла
-func getjson_from_datafile(r *http.Request) (map[string]interface{}, error) {
+func getjson_from_datafiles(r *http.Request) (map[string]interface{}, error) {
 	dir, err := mf.AppPath()
 	if err != nil {
 		return nil, err
 	}
 
-	datafilename := r.FormValue("datafilename")
-	data_path := dir + "\\files\\data\\" + datafilename
+	datafilename := r.FormValue("datafilename_host")
+	data_path := dir + "\\files\\data_host\\" + datafilename
 	file_data, err := mf.ReadFileStr(data_path)
 	if err != nil {
 		return nil, err
@@ -100,5 +100,26 @@ func getjson_from_datafile(r *http.Request) (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	datafilename = r.FormValue("datafilename_uk")
+	data_path = dir + "\\files\\data_uk\\" + datafilename
+	file_data, err = mf.ReadFileStr(data_path)
+	if err != nil {
+		return nil, err
+	}
+
+	if file_data[0:1] != "{" {
+		file_data = "{" + file_data + "}"
+	}
+
+	json2, err := mf.FromJson([]byte(file_data))
+	if err != nil {
+		return nil, err
+	}
+
+	for k, _ := range json2 {
+		json[k] = json2[k]
+	}
+
 	return json, err
 }

@@ -7,7 +7,8 @@ import (
 )
 
 func init() {
-	rtr.HandleFunc("/loaddatafileslist", mf.LogreqF("/loaddatafileslist", ajax_loaddatafileslist)).Methods("GET")
+	rtr.HandleFunc("/loaddatahostfileslist", mf.LogreqF("/loaddatahostfileslist", ajax_loaddatahostfileslist)).Methods("GET")
+	rtr.HandleFunc("/loaddataukfileslist", mf.LogreqF("/loaddataukfileslist", ajax_loaddataukfileslist)).Methods("GET")
 	rtr.HandleFunc("/loadversionlist", mf.LogreqF("/loadversionlist", ajax_loadversionlist)).Methods("GET")
 	rtr.HandleFunc("/loadfileslist", mf.LogreqF("/loadfileslist", ajax_loadfileslist)).Methods("GET")
 	rtr.HandleFunc("/loadfiledata", mf.LogreqF("/loadfiledata", ajax_loadfiledata)).Methods("GET")
@@ -16,15 +17,22 @@ func init() {
 }
 
 //загрузка списка файлов с данными
-func ajax_loaddatafileslist(w http.ResponseWriter, r *http.Request) {
+func ajax_loaddatahostfileslist(w http.ResponseWriter, r *http.Request) {
+	ajax_loaddatafileslist("data_host", w, r)
+}
+func ajax_loaddataukfileslist(w http.ResponseWriter, r *http.Request) {
+	ajax_loaddatafileslist("data_uk", w, r)
+}
+
+func ajax_loaddatafileslist(typefiles string, w http.ResponseWriter, r *http.Request) {
 	dir, err := mf.AppPath()
-	if checkError("get cur app dir error", err, w) {
+	if checkErrorJSON("get cur app dir error", err, w) {
 		return
 	}
 
-	xml_path := dir + "\\files\\data"
+	xml_path := dir + "\\files\\" + typefiles
 	files, err := mf.ReadDir(xml_path)
-	if checkError("read dir "+xml_path+" error", err, w) {
+	if checkErrorJSON("read dir "+xml_path+" error", err, w) {
 		return
 	}
 
@@ -35,7 +43,7 @@ func ajax_loaddatafileslist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json, err := mf.ToJson(filenames)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 
@@ -46,13 +54,13 @@ func ajax_loaddatafileslist(w http.ResponseWriter, r *http.Request) {
 //список версий
 func ajax_loadversionlist(w http.ResponseWriter, r *http.Request) {
 	dir, err := mf.AppPath()
-	if checkError("get cur app dir error", err, w) {
+	if checkErrorJSON("get cur app dir error", err, w) {
 		return
 	}
 
 	xml_path := dir + "\\files\\xml"
 	files, err := mf.ReadDir(xml_path)
-	if checkError("read dir "+xml_path+" error", err, w) {
+	if checkErrorJSON("read dir "+xml_path+" error", err, w) {
 		return
 	}
 
@@ -63,7 +71,7 @@ func ajax_loadversionlist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json, err := mf.ToJson(filenames)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 
@@ -75,7 +83,7 @@ func ajax_loadversionlist(w http.ResponseWriter, r *http.Request) {
 func ajax_loadfileslist(w http.ResponseWriter, r *http.Request) {
 
 	dir, err := mf.AppPath()
-	if checkError("get cur app dir error", err, w) {
+	if checkErrorJSON("get cur app dir error", err, w) {
 		return
 	}
 
@@ -90,19 +98,21 @@ func ajax_loadfileslist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	files, err := mf.ReadDir(xml_path)
-	if checkError("read dir "+xml_path+" error", err, w) {
+	if checkErrorJSON("read dir "+xml_path+" error", err, w) {
 		return
 	}
 
+	re, _ := mf.RegexpCompile("xml$")
 	var filenames []string
 	for _, file := range files {
 		name := file.Name()
-		filenames = append(filenames, name)
-
+		if re.MatchString(name) {
+			filenames = append(filenames, name)
+		}
 	}
 
 	json, err := mf.ToJson(filenames)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 
@@ -149,7 +159,7 @@ func ajax_loadfiledata(w http.ResponseWriter, r *http.Request) {
 	t = append(t, file_data)
 
 	json, err := mf.ToJson(t)
-	if checkError("ToJson error", err, w) {
+	if checkErrorJSON("ToJson error", err, w) {
 		return
 	}
 

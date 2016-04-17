@@ -63,6 +63,22 @@ func checkError(title string, err error, w http.ResponseWriter) bool {
 	return false
 }
 
+func checkErrorJSON(title string, err error, w http.ResponseWriter) bool {
+	if err != nil {
+		serr := "\n\n== ERROR: ======================================\n"
+		serr += title + "\n"
+		serr += mf.ErrStr(err)
+		serr += "\n\n== /ERROR ======================================\n"
+		log.Println(serr)
+
+		w.Header().Set("Content-Type", "text/json; charset=utf-8")
+		serr, _ = mf.StrReplaceRegexp(serr, "\"", "\\\"")
+		w.Write([]byte("[\"err\":\"" + serr + "\"]"))
+		return true
+	}
+	return false
+}
+
 func checkErrors(title string, err []error, w http.ResponseWriter) bool {
 	if err != nil {
 		serr := "\n\n== ERRORs: =====================================\n"
