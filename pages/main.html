@@ -110,11 +110,12 @@
 	</div>
 	<br>
 
-  <div class="row">
+
+  <div class="row vfill">
 	<div class="col-md-4">
 		<div class="input-group">
-				<span class="input-group-addon input-sm">data uk:</span>
-			    <select class="form-control input-sm" id="data_uk">
+				<span class="input-group-addon">data uk:</span>
+			    <select class="form-control" id="data_uk">
 		          <option>1</option>
 		          <option>2</option>
 		          <option>3</option>
@@ -123,33 +124,58 @@
 		        </select>
 		</div>
 		<br>
-	</div>
-	<div class="col-md-4">
-		<a href="#" class="btn btn-default" id="render_query">render query</a>
-		<br>
-	</div>
-	<div class="col-md-4">
-		<a href="#" class="btn btn-default" id="send_query">send query</a>
-		<br>
-	</div>
-  </div>
-  <div class="row vfill">
-	<div class="col-md-4">
 		<textarea class="form-control" rows="7" placeholder="" id=template_data>template data</textarea>
 		<br>
 		<textarea class="form-control vfill" rows="30" placeholder="" id=template_xml>template xml</textarea>
 	</div>
 	<div class="col-md-4">
+		<div class="input-group">
+			<a href="#" class="btn btn-default" id="render_query">render query</a>
+		</div>
+		<br>
 		<textarea class="form-control" rows="7" placeholder="" id=render_data>render data</textarea>
 		<br>
 		<textarea class="form-control vfill" rows="30" placeholder="" id=render_xml>render xml</textarea>
 	</div>
 	<div class="col-md-4">
+		<div class="col-md-4">
+			<a href="#" class="btn btn-default" id="send_query">send query</a>
+		</div>
+		<div class="input-group col-md-8">
+		  <input type="text" class="form-control pull-right" id="save_result_fileprefix">
+		  <a href="#" class="btn btn-default input-group-addon" id="save_result">save query&result</a>
+		</div>
+
+		<br>
 		<textarea class="form-control" rows="7" placeholder="" id=result_data>result data</textarea>
 		<br>
 		<textarea class="form-control vfill" rows="30" placeholder="" id=result_xml>result xml</textarea>
 	</div>
   </div>
+  <div class="row">
+	<div class="col-md-2">
+
+	</div>
+	<div class="col-md-4">
+
+	</div>
+	<div class="col-md-6">
+		<br>
+		<div class="input-group">
+		  		<input type="text" class="form-control" id="resutsfilter">
+				<span class="input-group-addon">results:</span>
+			    <select class="form-control" id="resultslist" style="min-width:300px">
+		          <option>1</option>
+		          <option>2</option>
+		          <option>3</option>
+		          <option>4</option>
+		          <option>5</option>
+		        </select>
+				<a href="#" class="btn btn-default input-group-addon" id="load_result">load query&result</a>
+		</div>
+	</div>
+  </div>
+
 </div>
 </form>
 <div id=errinfo class="col-md-12">

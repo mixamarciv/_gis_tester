@@ -12,6 +12,9 @@ func init() {
 	rtr.HandleFunc("/loadversionlist", mf.LogreqF("/loadversionlist", ajax_loadversionlist)).Methods("GET")
 	rtr.HandleFunc("/loadfileslist", mf.LogreqF("/loadfileslist", ajax_loadfileslist)).Methods("GET")
 	rtr.HandleFunc("/loadfiledata", mf.LogreqF("/loadfiledata", ajax_loadfiledata)).Methods("GET")
+	rtr.HandleFunc("/saveresult", mf.LogreqF("/saveresult", ajax_saveresult))
+	rtr.HandleFunc("/loadresultlist", mf.LogreqF("/loadresultlist", ajax_loadresultlist))
+	rtr.HandleFunc("/loadresult", mf.LogreqF("/loadresult", ajax_loadresult))
 
 	fmt.Printf("")
 }
@@ -124,7 +127,7 @@ func ajax_loadfileslist(w http.ResponseWriter, r *http.Request) {
 func ajax_loadfiledata(w http.ResponseWriter, r *http.Request) {
 
 	dir, err := mf.AppPath()
-	if checkError("get cur app dir error", err, w) {
+	if checkErrorJSON("get cur app dir error", err, w) {
 		return
 	}
 
@@ -165,4 +168,120 @@ func ajax_loadfiledata(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/json; charset=utf-8")
 	w.Write(json)
+}
+
+//сохранение файла
+func ajax_saveresult(w http.ResponseWriter, r *http.Request) {
+
+	dir, err := mf.AppPath()
+	if checkErrorJSON("get cur app dir error", err, w) {
+		return
+	}
+
+	path := dir + "\\files\\result\\" + mf.CurTimeStrShort()[0:8]
+	err = mf.MkdirAll(path)
+	if checkErrorJSON("get cur app dir error", err, w) {
+		return
+	}
+
+	d := make(map[string]string, 0)
+	d["data"] = r.FormValue("data")
+	d["xml"] = r.FormValue("xml")
+	d["res_data"] = r.FormValue("res_data")
+	d["res_xml"] = r.FormValue("res_xml")
+
+	json, err := mf.ToJson(d)
+	if checkErrorJSON("ToJson error", err, w) {
+		return
+	}
+
+	file := path + "\\" + mf.CurTimeStrShort() + "_" + r.FormValue("name_prefix") + ".res"
+	err = mf.WriteFile(file, json)
+	if checkErrorJSON("WriteFile error", err, w) {
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/json; charset=utf-8")
+	w.Write([]byte("{\"ok\":1}"))
+}
+
+//список файлов внутри версии
+func ajax_loadresultlist(w http.ResponseWriter, r *http.Request) {
+
+	dir, err := mf.AppPath()
+	if checkErrorJSON("get cur app dir error", err, w) {
+		return
+	}
+
+	path := dir + "\\files\\result\\"
+	ex := mf.FileExists(path)
+	if ex == false {
+		w.Header().Set("Content-Type", "text/json; charset=utf-8")
+		w.Write([]byte("[0:\"file not found " + path + "\"]"))
+		return
+	}
+
+	files, err := mf.ReadDir(path)
+	if checkErrorJSON("read dir "+path+" error", err, w) {
+		return
+	}
+
+	use_filter := true
+	filter := r.FormValue("filter")
+	if len(filter) == 0 {
+		use_filter = false
+	}
+	re, _ := mf.RegexpCompile(filter)
+	var filenames []string
+	for _, file := range files {
+		name := file.Name()
+		i_path := path + "\\" + file.Name()
+		i_files, err := mf.ReadDir(i_path)
+		if checkErrorJSON("read dir "+i_path+" error", err, w) {
+			return
+		}
+		for _, i_file := range i_files {
+			i_name := name + "/" + i_file.Name()
+			if use_filter {
+				if re.MatchString(i_name) {
+					filenames = append(filenames, i_name)
+				}
+			} else {
+				filenames = append(filenames, i_name)
+			}
+		}
+	}
+
+	json, err := mf.ToJson(filenames)
+	if checkErrorJSON("ToJson error", err, w) {
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/json; charset=utf-8")
+	w.Write(json)
+}
+
+//загрузка ранее сохраненного файла
+func ajax_loadresult(w http.ResponseWriter, r *http.Request) {
+
+	dir, err := mf.AppPath()
+	if checkErrorJSON("get cur app dir error", err, w) {
+		return
+	}
+
+	filename, _ := mf.StrReplaceRegexp(r.FormValue("file"), "/", "\\")
+	path := dir + "\\files\\result\\" + filename
+
+	file_data, err := mf.ReadFileStr(path)
+	if checkErrorJSON("ReadFileStr error", err, w) {
+		return
+	}
+	/*
+		json, err := mf.FromJson([]byte(file_data))
+		if err != nil {
+			return nil, err
+		}
+	*/
+	w.Header().Set("Content-Type", "text/json; charset=utf-8")
+	w.Write([]byte(file_data))
 }

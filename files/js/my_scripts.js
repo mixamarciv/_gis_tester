@@ -34,10 +34,19 @@ $( document ).ready(function() {
 	loaddataukfileslist();
 	loadversionlist();
 	
+	loadresultlist();
+	
 	$("#template_ver").on("change",loadfileslist);
 	$("#template_file").on("change",loadfiledata);
 	$("#render_query").on("click",renderquery);
+	$("#resutsfilter").on("change",loadresultlist);
+	$("#resutsfilter").on("input",loadresultlist);
+	$("#load_result").on("click",loadresult);
+	
+	
 	$("#send_query").on("click",sendquery);
+	$("#save_result").on("click",saveresult);
+	
 })
 
 //загрузка списка файлов данных хостов
@@ -51,7 +60,7 @@ function loaddatahostfileslist(){
 			$("#result_xml").html("<option selected>загрузка...</option>")
 		}
 	}).done(function(json){
-		if(json.err) return show_error_ajax_fail(json)
+		if(json.err) return show_error_ajax_fail("loaddatahostfileslist",json)
 		var s = "";
 		n = 0;
 		for(var i in json){
@@ -60,7 +69,7 @@ function loaddatahostfileslist(){
 		}
 		$("#data_host").html(s)
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("loaddatahostfileslist",xhr, status, errorThrown)
   	});
 }
 
@@ -75,7 +84,7 @@ function loadversionlist(){
 			$("#template_ver").html("<option selected>загрузка...</option>")
 		}
 	}).done(function(json){
-		if(json.err) return show_error_ajax_fail(json)
+		if(json.err) return show_error_ajax_fail("loadversionlist",json)
 		var s = "";
 		n = 0;
 		for(var i in json){
@@ -85,7 +94,7 @@ function loadversionlist(){
 		$("#template_ver").html(s)
 		loadfileslist()
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("loadversionlist",xhr, status, errorThrown)
   	});
 }
 
@@ -100,7 +109,7 @@ function loadfileslist(){
 			$("#template_file").html("<option selected>загрузка...</option>")
 		}
 	}).done(function(json){
-		if(json.err) return show_error_ajax_fail(json)
+		if(json.err) return show_error_ajax_fail("loadfileslist",json)
 		var s = "";
 		for(var i in json){
 			s += "<option>"+json[i]+"</option>"
@@ -108,7 +117,7 @@ function loadfileslist(){
 		$("#template_file").html(s)
 		loadfiledata()
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("loadfileslist",xhr, status, errorThrown)
   	});
 }
 
@@ -123,7 +132,7 @@ function loaddataukfileslist(){
 			$("#result_xml").html("<option selected>загрузка...</option>")
 		}
 	}).done(function(json){
-		if(json.err) return show_error_ajax_fail(json)
+		if(json.err) return show_error_ajax_fail("loaddataukfileslist",json)
 		var s = "";
 		n = 0;
 		for(var i in json){
@@ -132,7 +141,7 @@ function loaddataukfileslist(){
 		}
 		$("#data_uk").html(s)
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("loaddataukfileslist",xhr, status, errorThrown)
   	});
 }
 
@@ -148,11 +157,11 @@ function loadfiledata(){
 			$("#template_xml").val("загрузка...")
 		}
 	}).done(function(json){
-			if(json.err) return show_error_ajax_fail(json)
+			if(json.err) return show_error_ajax_fail("loadfiledata",json)
 			$("#template_data").val(json[1])
 			$("#template_xml").val(json[0])
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("loadfiledata",xhr, status, errorThrown)
   	});
 }
 
@@ -175,20 +184,20 @@ function renderquery(){
 			$("#render_xml").val("загрузка...")
 		}
 	}).done(function(json){
-			if(json.err) return show_error_ajax_fail(json)
+			if(json.err) return show_error_ajax_fail("renderquery",json)
 			$("#render_data").val(json[1])
 			$("#render_xml").val(json[0])
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("renderquery",xhr, status, errorThrown)
   	});
 }
 
-//отправка запроса
+//отправка запроса (сам запрос и результат сохраняем в window.data1 что бы потом можно было им воспользоваться)
 function sendquery(){
 	var data = {}
 	data.data = $("#render_data").val()
 	data.xml = $("#render_xml").val()
-	
+	window.data1 = data;
 	$.ajax({
 		type: "POST",
 		url: "/sendquery",
@@ -199,22 +208,103 @@ function sendquery(){
 			$("#result_xml").val("загрузка...")
 		}
 	}).done(function(json){
-			if(json.err) return show_error_ajax_fail(json)
+			if(json.err) return show_error_ajax_fail("sendquery",json)
 			$("#result_data").val(json[1])
 			$("#result_xml").val(json[0])
+			window.data1.res_data = json[1]
+			window.data1.res_xml = json[0]
 	}).fail(function( xhr, status, errorThrown ) {
-		show_error_ajax_fail(xhr, status, errorThrown)
+		show_error_ajax_fail("sendquery",xhr, status, errorThrown)
   	});
 }
 
-function show_error_ajax_fail(xhr, status, errorThrown){
-	if(arguments.length==1){
+function saveresult(){
+	if(!window.data1){
+		window.data1 = {}
+		window.data1.data = $("#render_data").val()
+		window.data1.xml  = $("#render_xml").val()
+		window.data1.res_data = $("#result_data").val()
+		window.data1.res_xml  = $("#result_xml").val()
+	}
+	window.data1.name_prefix = $("#save_result_fileprefix").val()
+	//alert(window.data1.name_prefix)
+	$.ajax({
+		type: "POST",
+		url: "/saveresult",
+		data: window.data1,
+		dataType: "json",
+		beforeSend: function(){
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("saveresult",json)
+			if(!json.ok) return show_error_ajax_fail("saveresult",json)
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("saveresult",xhr, status, errorThrown)
+  	});
+}
+
+function loadresultlist(){
+	$.ajax({
+		type: "POST",
+		url: "/loadresultlist",
+		data: {filter:$("#resutsfilter").val()},
+		dataType: "json",
+		beforeSend: function(){
+			$("#resultslist").html("<option selected>load..</option>")
+		}
+	}).done(function(json){
+		var s = "";
+		if(!json) s="<option selected>not found</option>"
+		$("#resultslist").html(s)
+		if(json.err) return show_error_ajax_fail("loadresultlist",json)
+		n = 0;
+		for(var i in json){
+			if(n++==json.length-1) s += "<option selected>"+json[i]+"</option>"
+			else s += "<option>"+json[i]+"</option>"
+			if(n>100) break;
+		}
+		if(n==0) s="<option selected>not found</option>"
+		$("#resultslist").html(s)
+	}).fail(function( xhr, status, errorThrown ) {
+		//alert("ERR:"+var_dump(xhr))
+		show_error_ajax_fail("loadresultlist",xhr, status, errorThrown)
+  	});
+}
+
+//загрузка ранее сохраненных данных
+function loadresult(){
+	var data = {}
+	$.ajax({
+		type: "POST",
+		url: "/loadresult",
+		data: {file:$("#resultslist").val()},
+		dataType: "json",
+		beforeSend: function(){
+			$("#render_data").val("загрузка...")
+			$("#render_xml").val("загрузка...")
+			$("#result_data").val("загрузка...")
+			$("#result_xml").val("загрузка...")
+		}
+	}).done(function(json){
+			//alert(var_dump(json))
+			if(json.err) return show_error_ajax_fail("loadresult",json)
+			$("#render_data").val(json.data)
+			$("#render_xml").val(json.xml)
+			$("#result_data").val(json.res_data)
+			$("#result_xml").val(json.res_xml)
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("loadresult",xhr, status, errorThrown)
+  	});
+}
+
+function show_error_ajax_fail(info,xhr, status, errorThrown){
+	if(arguments.length==2){
 		json = xhr;
 		$("#errinfo").html(
 		  '<div class="modal" id="errModal" role="dialog"><div class="modal-dialog">                '+
 		  '    <div class="modal-content"><div class="modal-header">                                '+
 		  '        <button type="button" class="close" data-dismiss="modal">&times;</button>        '+
-		  '        <h4 class="modal-title">req error</h4>                                           '+
+		  '        <h4 class="modal-title">'+info+'</h4>                                           '+
 		  '      </div>                                                                             '+
 		  '      <div class="modal-body">                                                           '+
 		  '        <pre>'+var_dump(json)+'</pre>                                                    '+
@@ -232,7 +322,7 @@ function show_error_ajax_fail(xhr, status, errorThrown){
 	  '<div class="modal" id="errModal" role="dialog"><div class="modal-dialog">                '+
 	  '    <div class="modal-content"><div class="modal-header">                                '+
 	  '        <button type="button" class="close" data-dismiss="modal">&times;</button>        '+
-	  '        <h4 class="modal-title">'+var_dump(status)+'</h4>                                '+
+	  '        <h4 class="modal-title">'+info+'  '+var_dump(status)+'</h4>                      '+
 	  '      </div>                                                                             '+
 	  '      <div class="modal-body">                                                           '+
 	  '        <pre>'+var_dump(xhr.responseText)+'</pre>                                        '+
