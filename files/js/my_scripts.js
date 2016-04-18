@@ -30,24 +30,135 @@ function var_dump(obj,max_level,level,separator){
 //----------------------------------------------------
 
 $( document ).ready(function() {
-	loaddatahostfileslist();
-	loaddataukfileslist();
-	loadversionlist();
+	if($("#main_form").length>0) {
+		
+		$("#savexmlfile").on("click",savexmlfile);
+		$("#delxmlfile").on("click",delxmlfile);
+
+		loaddatahostfileslist();
+		loaddataukfileslist();
+		loadversionlist();
+		
+		loadresultlist();
+		
+		$("#template_ver").on("change",loadfileslist);
+		$("#template_file").on("change",loadfiledata);
+		$("#render_query").on("click",renderquery);
+		$("#resutsfilter").on("change",loadresultlist);
+		$("#resutsfilter").on("input",loadresultlist);
+		$("#load_result").on("click",loadresult);
+		
+		
+		$("#send_query").on("click",sendquery);
+		$("#save_result").on("click",saveresult);
+		
+		
+		$("#data_uk_edit").on("click",function(){ editfile("data_uk") });
+		$("#data_host_edit").on("click",function(){ editfile("data_host") });
+		//type == data_uk или data_host
+	}
 	
-	loadresultlist();
-	
-	$("#template_ver").on("change",loadfileslist);
-	$("#template_file").on("change",loadfiledata);
-	$("#render_query").on("click",renderquery);
-	$("#resutsfilter").on("change",loadresultlist);
-	$("#resutsfilter").on("input",loadresultlist);
-	$("#load_result").on("click",loadresult);
-	
-	
-	$("#send_query").on("click",sendquery);
-	$("#save_result").on("click",saveresult);
-	
+	if($("#edit_form").length>0) {
+		$("#save").on("click",edit_form_save);
+		$("#delete").on("click",edit_form_delete);
+	}
 })
+
+function edit_form_save(){
+	var data = {}
+	data.data = $("#data").val()
+	//data.json = ''
+	data.file = $("#file").val()
+	data.rtype = $("#rtype").val()
+	data.oper = "save"
+	
+	$.ajax({
+		type: "POST",
+		url: "/edit_save",
+		data: data,
+		dataType: "json",
+		beforeSend: function(){
+			$("#info").html("загрузка...")
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("renderquery",json)
+			$("#info").html("файл успешно сохранен "+json.file)
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("renderquery",xhr, status, errorThrown)
+  	});
+}
+
+function edit_form_delete(){
+	var data = {}
+	data.file = $("#file").val()
+	data.rtype = $("#rtype").val()
+	data.oper = "delete"
+	
+	$.ajax({
+		type: "POST",
+		url: "/edit_save",
+		data: data,
+		dataType: "json",
+		beforeSend: function(){
+			$("#info").html("загрузка...")
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("renderquery",json)
+			$("#info").html("файл успешно удален "+json.file)
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("renderquery",xhr, status, errorThrown)
+  	});
+}
+
+
+function savexmlfile(){
+	var data = {}
+	data.json = $("#template_data").val()
+	data.xml = $("#template_xml").val()
+	data.file = $("#savexmlfilename").val()
+	data.rtype = "xml/"+$("#template_ver").val()
+	data.oper = "savexml"
+	
+	
+	$.ajax({
+		type: "POST",
+		url: "/edit_save",
+		data: data,
+		dataType: "json",
+		beforeSend: function(){
+			$("#savexmlinfo").html("загрузка...")
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("renderquery",json)
+			$("#savexmlinfo").html("сохранено")
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("renderquery",xhr, status, errorThrown)
+  	});
+}
+
+function delxmlfile(){
+	var data = {}
+	data.file = $("#savexmlfilename").val()
+	data.rtype = "xml/"+$("#template_ver").val()
+	data.oper = "delxml"
+	
+	if (confirm("удалить файл "+data.file+"?")){
+		$.ajax({
+			type: "POST",
+			url: "/edit_save",
+			data: data,
+			dataType: "json",
+			beforeSend: function(){
+				$("#savexmlinfo").html("загрузка...")
+			}
+		}).done(function(json){
+				if(json.err) return show_error_ajax_fail("renderquery",json)
+				$("#savexmlinfo").html("удалено")
+		}).fail(function( xhr, status, errorThrown ) {
+			show_error_ajax_fail("renderquery",xhr, status, errorThrown)
+	  	});
+	}
+}
 
 //загрузка списка файлов данных хостов
 function loaddatahostfileslist(){
@@ -147,6 +258,7 @@ function loaddataukfileslist(){
 
 //загрузка данных по выбранному файлу
 function loadfiledata(){
+	$("#savexmlfilename").val($("#template_file").val())
 	$.ajax({
 		type: "GET",
 		url: "/loadfiledata",
@@ -254,8 +366,12 @@ function loadresultlist(){
 		}
 	}).done(function(json){
 		var s = "";
-		if(!json) s="<option selected>not found</option>"
-		$("#resultslist").html(s)
+		if(!json){ 
+			s="<option selected>not found</option>"
+			$("#resultslist").html(s)
+			$("#result_label").html("results(0)")
+			return
+		}
 		if(json.err) return show_error_ajax_fail("loadresultlist",json)
 		n = 0;
 		for(var i in json){
@@ -265,6 +381,7 @@ function loadresultlist(){
 		}
 		if(n==0) s="<option selected>not found</option>"
 		$("#resultslist").html(s)
+		$("#result_label").html("results("+n+")")
 	}).fail(function( xhr, status, errorThrown ) {
 		//alert("ERR:"+var_dump(xhr))
 		show_error_ajax_fail("loadresultlist",xhr, status, errorThrown)
@@ -295,6 +412,24 @@ function loadresult(){
 	}).fail(function( xhr, status, errorThrown ) {
 		show_error_ajax_fail("loadresult",xhr, status, errorThrown)
   	});
+}
+
+//редактирование файлов для data_uk или data_host
+function editfile(type){
+	//type == data_uk или data_host
+	var file = $("#"+type).val()
+	var url = "/edit?type="+type+"&file="+encodeURIComponent(file)
+	window.open(url,'_blank');
+	/********
+	window.open(url,'_blank');
+	var newWin = window.open("/edit?type="+type+"&file="+encodeURIComponent(file),
+	   "edit "+type,
+	   "width=420,height=230,resizable=yes,scrollbars=yes,status=yes"
+	)
+	
+	
+	newWin.focus()
+	*********/
 }
 
 function show_error_ajax_fail(info,xhr, status, errorThrown){

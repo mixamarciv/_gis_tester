@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
   </head>
-<body class="vfill">
+<body class="vfill"  id=main_form>
 
 	
 <!--
@@ -73,7 +73,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="input-group">
-					<span class="input-group-addon input-sm">data host:</span>
+					<a href="#" class="btn btn-default input-group-addon input-sm" id="data_host_edit">data host:</a>
 				    <select class="form-control input-sm" id="data_host">
 			          <option>1</option>
 			          <option>2</option>
@@ -114,7 +114,7 @@
   <div class="row vfill">
 	<div class="col-md-4">
 		<div class="input-group">
-				<span class="input-group-addon">data uk:</span>
+				<a href="#" class="btn btn-default input-group-addon input-sm" id="data_uk_edit">data uk:</a>
 			    <select class="form-control" id="data_uk">
 		          <option>1</option>
 		          <option>2</option>
@@ -127,6 +127,22 @@
 		<textarea class="form-control" rows="7" placeholder="" id=template_data>template data</textarea>
 		<br>
 		<textarea class="form-control vfill" rows="30" placeholder="" id=template_xml>template xml</textarea>
+		
+		<div class="input-group col-md-12" id="savexmlinfo">
+		</div>
+		
+			<div class="col-md-10">
+				<div class="input-group">
+					<input type="text" class="form-control" id="savexmlfilename">
+					<a href="#" class="btn btn-default input-group-addon" id="savexmlfile">save</a>
+				</div>
+			</div>
+			<div class="col-md-2">
+				<div class="input-group">
+					<a href="#" class="btn btn-default " id="delxmlfile">del</a>
+				</div>
+			</div>
+		
 	</div>
 	<div class="col-md-4">
 		<div class="input-group">
@@ -153,18 +169,17 @@
 	</div>
   </div>
   <div class="row">
-	<div class="col-md-2">
-
-	</div>
 	<div class="col-md-4">
 
 	</div>
-	<div class="col-md-6">
-		<br>
+	<div class="col-md-1">
+
+	</div>
+	<div class="col-md-7">
 		<div class="input-group">
 		  		<input type="text" class="form-control" id="resutsfilter">
-				<span class="input-group-addon">results:</span>
-			    <select class="form-control" id="resultslist" style="min-width:300px">
+				<span class="input-group-addon" id="result_label" style="width:120px">results:</span>
+			    <select class="form-control" id="resultslist" style="min-width:400px">
 		          <option>1</option>
 		          <option>2</option>
 		          <option>3</option>
@@ -178,9 +193,7 @@
 
 </div>
 </form>
-<div id=errinfo class="col-md-12">
-
-</div>
+<div id=errinfo class="col-md-12"></div>
 
 <script language="javascript" src="/files/js/all.scripts.min.js"></script>
 <script language="javascript" src="/files/js/my_scripts.js"></script>

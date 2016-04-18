@@ -39,9 +39,14 @@ func ajax_loaddatafileslist(typefiles string, w http.ResponseWriter, r *http.Req
 		return
 	}
 
+	re, _ := mf.RegexpCompile("deleted$")
+
 	var filenames []string
 	for _, file := range files {
 		name := file.Name()
+		if re.MatchString(name) {
+			continue
+		}
 		filenames = append(filenames, name)
 	}
 

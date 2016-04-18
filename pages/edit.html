@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>edit {{.Rtype}}</title>
+    <link rel='stylesheet' href='/files/css/all.styles.min.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  </head>
+<body id=edit_form>
+
+
+
+<div class="col-md-12 vfill">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="input-group">
+					<span class="btn btn-default input-group-addon">file:</span>
+				    <input id="file" type="text" class="form-control" value="{{.File}}">
+					<input id="rtype" type="hidden" class="form-control" value="{{.Rtype}}">
+			</div>
+		</div>
+	</div>
+	<br>
+
+    <div class="row">
+		<div class="col-md-12">
+			<textarea class="form-control" rows="30" placeholder="" id="data">{{.Data}}</textarea>
+		</div>
+	</div>
+	
+	<br>
+	
+    <div class="row">
+		<div class="col-md-12">
+			<a href="#" class="btn btn-default" id="save">save</a>
+			<a href="#" class="btn btn-default pull-right" id="delete">delete file</a>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-md-12" id="info">
+			
+		</div>
+	</div>
+</div>
+<div id=errinfo class="col-md-12"></div>
+
+
+<script language="javascript" src="/files/js/all.scripts.min.js"></script>
+<script language="javascript" src="/files/js/my_scripts.js"></script>
+</body>
+</html>

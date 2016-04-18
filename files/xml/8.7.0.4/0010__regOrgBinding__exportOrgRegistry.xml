@@ -8,6 +8,7 @@
    <soapenv:Body>
       <org:exportOrgRegistryRequest>
          <org:SearchCriteria>
+            <!-- запрос по УК  {{index .Data "uk"}}  test7 -->
             <ns:OGRN>{{index .Data "ogrn"}}</ns:OGRN>
          </org:SearchCriteria>
       </org:exportOrgRegistryRequest>
