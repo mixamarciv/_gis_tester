@@ -41,6 +41,7 @@ func main() {
 	rtr.PathPrefix("/files/").Handler(mf.LogreqH("/files/", s))
 
 	http.Handle("/", rtr)
+	
 
 	listenPort := 8080
 	log.Println("Listening port: " + mf.IntToStr(listenPort))

@@ -131,6 +131,7 @@ function savexmlfile(){
 	}).done(function(json){
 			if(json.err) return show_error_ajax_fail("renderquery",json)
 			$("#savexmlinfo").html("сохранено")
+			loadfileslist(data.file);
 	}).fail(function( xhr, status, errorThrown ) {
 		show_error_ajax_fail("renderquery",xhr, status, errorThrown)
   	});
@@ -154,6 +155,7 @@ function delxmlfile(){
 		}).done(function(json){
 				if(json.err) return show_error_ajax_fail("renderquery",json)
 				$("#savexmlinfo").html("удалено")
+				loadfileslist(data.file);
 		}).fail(function( xhr, status, errorThrown ) {
 			show_error_ajax_fail("renderquery",xhr, status, errorThrown)
 	  	});
@@ -210,7 +212,7 @@ function loadversionlist(){
 }
 
 //загрузка списка xml файлов в версии
-function loadfileslist(){
+function loadfileslist(file){
 	$.ajax({
 		type: "GET",
 		url: "/loadfileslist",
@@ -223,7 +225,11 @@ function loadfileslist(){
 		if(json.err) return show_error_ajax_fail("loadfileslist",json)
 		var s = "";
 		for(var i in json){
-			s += "<option>"+json[i]+"</option>"
+			sel = ""
+			if(file){ 
+				if(file==json[i]) sel = "selected"
+			}else if(n++==json.length-1) sel = "selected"
+			s += "<option "+sel+">"+json[i]+"</option>"
 		}
 		$("#template_file").html(s)
 		loadfiledata()
@@ -233,7 +239,7 @@ function loadfileslist(){
 }
 
 //загрузка списка файлов данных по ук
-function loaddataukfileslist(){
+function loaddataukfileslist(file){
 	$.ajax({
 		type: "GET",
 		url: "/loaddataukfileslist",
@@ -247,8 +253,11 @@ function loaddataukfileslist(){
 		var s = "";
 		n = 0;
 		for(var i in json){
-			if(n++==json.length-1) s += "<option selected>"+json[i]+"</option>"
-			else s += "<option>"+json[i]+"</option>"
+			sel = ""
+			if(file){ 
+				if(file==json[i]) sel = "selected"
+			}else if(n++==json.length-1) sel = "selected"
+			s += "<option "+sel+">"+json[i]+"</option>"
 		}
 		$("#data_uk").html(s)
 	}).fail(function( xhr, status, errorThrown ) {

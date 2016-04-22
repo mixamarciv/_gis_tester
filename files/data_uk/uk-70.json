@@ -1,7 +1,12 @@
 {
 "uk": 70,
-"ogrn": "1091104000063",
+"ogrn_IVK": "1091104000063",
+"ogrn": "1151101008860",
 "inn": "1104012309",
 "kpp": "110401001",
 "okpo": "89785169"
+,"SenderID": "afdcc565-2f79-4c73-913d-0a1def6fbc7d"
+,"FIASHouseGuid" : "3db255a7-1325-4416-8c31-946aa3b150ef"
+,"FIASHouseGuid_mira1" : "3db255a7-1325-4416-8c31-946aa3b150ef"
+,"FIASHouseGuid_mira19" : "374bb4a5-9715-41f9-9ead-84666060338a"
 }

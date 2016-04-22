@@ -4,6 +4,7 @@ import (
 	"fmt"
 	mf "gofncstd3000"
 	"net/http"
+	str "strings"
 )
 
 func init() {
@@ -153,6 +154,7 @@ func ajax_loadfiledata(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("[0:\"read file " + xml_path + " error\"]"))
 		return
 	}
+	file_xml = prepare_xmlfile(file_xml)
 
 	data_path := xml_path + ".json"
 	file_data, err := mf.ReadFileStr(data_path)
@@ -173,6 +175,31 @@ func ajax_loadfiledata(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "text/json; charset=utf-8")
 	w.Write(json)
+}
+
+func prepare_xmlfile(s string) string {
+
+	ss := str.SplitAfter(s, "<soapenv:Header>")
+	if len(ss) != 2 {
+		return s
+	}
+	h1 := ss[0]
+
+	ss = str.SplitAfter(ss[1], "</soapenv:Header>")
+	if len(ss) != 2 {
+		return s
+	}
+
+	h2 := ss[0]
+	b := ss[1]
+
+	h1 = mf.StrReplaceRegexp2(h1, "/\\d+\\.\\d+\\.\\d+\\.\\d+/", "{{.HuisVer}}")
+	h2 = mf.StrReplaceRegexp2(h2, "<ns:Date>\\?</ns:Date>", "<ns:Date>{{CurDateTime1}}</ns:Date>")
+	h2 = mf.StrReplaceRegexp2(h2, "<ns:MessageGUID>\\?</ns:MessageGUID>", "<ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>")
+	h2 = mf.StrReplaceRegexp2(h2, "<ns:SenderID>\\?</ns:SenderID>", "<ns:SenderID>{{index .Data \"SenderID\"}}</ns:SenderID>")
+
+	b = mf.StrReplaceRegexp2(b, "<ns:TransportGUID>\\?</ns:TransportGUID>", "<ns:TransportGUID>{{RandomGUID}}</ns:TransportGUID>")
+	return h1 + h2 + b
 }
 
 //сохранение файла
