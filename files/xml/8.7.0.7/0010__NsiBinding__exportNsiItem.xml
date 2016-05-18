@@ -1,0 +1,16 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/" xmlns:nsi="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/nsi-common/" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header>
+      <ns:ISRequestHeader>
+         <ns:Date>{{CurDateTime1}}</ns:Date>
+         <ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>
+      </ns:ISRequestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <nsi:exportNsiItemRequest>
+         <nsi:RegistryNumber>30</nsi:RegistryNumber>
+         <ns:ListGroup>NSI</ns:ListGroup>
+         <!--Optional:-->
+         <!-- <nsi:ModifiedAfter>?</nsi:ModifiedAfter> -->
+      </nsi:exportNsiItemRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

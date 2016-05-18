@@ -1,0 +1,24 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/" xmlns:org="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/organizations-registry-common/" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header>
+      <ns:ISRequestHeader>
+         <ns:Date>{{CurDateTime1}}</ns:Date>
+         <ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>
+      </ns:ISRequestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <org:importDataProviderRequest Id="?">
+        
+         <!--1 to 100 repetitions:-->
+         <org:DataProvider>
+            <ns:TransportGUID>{{RandomGUID}}</ns:TransportGUID>
+            <!--You have a CHOICE of the next 2 items at this level-->
+            <org:AllocateSenderID>
+               <ns:RegOrg>
+                  <ns:orgRootEntityGUID>62240a18-ce06-4de6-9ef9-fb3c9d419b6f</ns:orgRootEntityGUID>
+               </ns:RegOrg>
+            </org:AllocateSenderID>
+
+         </org:DataProvider>
+      </org:importDataProviderRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,59 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/" xmlns:hous="http://dom.gosuslugi.ru/schema/integration/{{.HuisVer}}/house-management/" xmlns:xd="http://www.w3.org/2000/09/xmldsig#">
+   <soapenv:Header>
+      <ns:RequestHeader>
+         <ns:Date>{{CurDateTime1}}</ns:Date>
+         <ns:MessageGUID>{{RandomGUID}}</ns:MessageGUID>
+         <!-- запрос по УК  {{index .Data "uk"}}  -->
+         <ns:SenderID>{{index .Data "SenderID"}}</ns:SenderID>
+         <ns:IsOperatorSighnature>true</ns:IsOperatorSighnature>
+      </ns:RequestHeader>
+   </soapenv:Header>
+   <soapenv:Body>
+      <hous:importHouseUORequest>
+         
+         <!--You have a CHOICE of the next 2 items at this level-->
+         <hous:ApartmentHouse>
+            <hous:ApartmentHouseToUpdate>
+               <hous:BasicCharacteristicts>
+                  <!--You have a CHOICE of the next 2 items at this level-->
+                  <hous:CadastralNumber>?</hous:CadastralNumber>
+                  <hous:No_RSO_GKN_EGRP_Registered>true</hous:No_RSO_GKN_EGRP_Registered>
+                  <hous:FIASHouseGuid>{{index .Data "FIASHouseGuid_mira1"}}</hous:FIASHouseGuid>
+                  <!--Optional:-->
+                  <hous:TotalSquare>499.13</hous:TotalSquare>
+                  <!--Optional:-->
+                  <hous:State>
+                     <ns:Code>?</ns:Code>
+                     <ns:GUID>?</ns:GUID>
+                    <ns4:Code>2</ns4:Code>
+                    <ns4:GUID>57c4dbc5-bdd5-4490-92e1-3e687797b32a</ns4:GUID>
+                     <!--Optional:-->
+                     <!-- <ns:Name>?</ns:Name> -->
+                  </hous:State>
+                  <!--Optional:-->
+                  <hous:UsedYear>2001</hous:UsedYear>
+                  <!--Optional:-->
+                  <hous:FloorCount>10</hous:FloorCount>
+                  <!--Optional:-->
+                  <!-- <hous:OKTMO>
+                     <ns:code>?</ns:code>
+                     <!--Optional:-- >
+                     <ns:name>?</ns:name>
+                  </hous:OKTMO> -->
+                  <!--Optional:-->
+                  <hous:ResidentialSquare>400</hous:ResidentialSquare>
+                  <!--Optional:-->
+                  <hous:CulturalHeritage>false</hous:CulturalHeritage>
+               </hous:BasicCharacteristicts>
+               <!--Optional:-->
+               <hous:UndergroundFloorCount>0</hous:UndergroundFloorCount>
+               <!--Optional:-->
+               <hous:MinFloorCount>10</hous:MinFloorCount>
+
+               <ns:TransportGUID>{{RandomGUID}}</ns:TransportGUID>
+            </hous:ApartmentHouseToUpdate>
+
+         </hous:ApartmentHouse>
+      </hous:importHouseUORequest>
+   </soapenv:Body>
+</soapenv:Envelope>
