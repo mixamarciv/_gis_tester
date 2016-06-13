@@ -6,3 +6,6 @@
 ,"SenderID": "d55f32d0-b492-469c-9eab-b009e71add5b"
 ,"FIASHouseGuid" : "3db255a7-1325-4416-8c31-946aa3b150ef"
 ,"FIASHouseGuid_mira1" : "3db255a7-1325-4416-8c31-946aa3b150ef"
+
+,"signserv":"http://192.168.1.23:8001/sign"
+,"signname":"guk0001"

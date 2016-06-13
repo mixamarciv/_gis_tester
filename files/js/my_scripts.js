@@ -50,6 +50,8 @@ $( document ).ready(function() {
 		
 		
 		$("#send_query").on("click",sendquery);
+		$("#send_queryasync").on("click",sendqueryasync);
+		$("#sign_query").on("click",signquery);
 		$("#save_result").on("click",saveresult);
 		
 		
@@ -338,6 +340,55 @@ function sendquery(){
 		show_error_ajax_fail("sendquery",xhr, status, errorThrown)
   	});
 }
+
+function sendqueryasync(){
+	var data = {}
+	data.data = $("#render_data").val()
+	data.xml = $("#render_xml").val()
+	window.data1 = data;
+	$.ajax({
+		type: "POST",
+		url: "/sendqueryasync",
+		data: data,
+		dataType: "json",
+		beforeSend: function(){
+			$("#result_data").val("загрузка...")
+			$("#result_xml").val("загрузка...")
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("sendquery",json)
+			$("#result_data").val(json[1])
+			$("#result_xml").val(json[0])
+			window.data1.res_data = json[1]
+			window.data1.res_xml = json[0]
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("sendqueryasync",xhr, status, errorThrown)
+  	});
+}
+
+//подпись запроса 
+function signquery(){
+	var data = {}
+	data.data = $("#render_data").val()
+	data.xml = $("#render_xml").val()
+	$.ajax({
+		type: "POST",
+		url: "/signquery",
+		data: data,
+		dataType: "json",
+		beforeSend: function(){
+			//$("#render_data").val("загрузка...")
+			$("#sign_query_info").val("загрузка...")
+		}
+	}).done(function(json){
+			if(json.err) return show_error_ajax_fail("sendquery",json)
+			//$("#render_data").val(json[1])
+			$("#render_xml").val(json[0])
+	}).fail(function( xhr, status, errorThrown ) {
+		show_error_ajax_fail("signquery",xhr, status, errorThrown)
+  	});
+}
+
 
 function saveresult(){
 	if(!window.data1){

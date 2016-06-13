@@ -145,8 +145,11 @@
 		
 	</div>
 	<div class="col-md-4">
-		<div class="input-group">
+		<div class="input-group col-md-12">
 			<a href="#" class="btn btn-default" id="render_query">render query</a>
+			
+			<a href="#" class="btn btn-default pull-right" id="sign_query">sign</a>
+			<span class="text pull-right" id="sign_query_info"></span>
 		</div>
 		<br>
 		<textarea class="form-control" rows="7" placeholder="" id=render_data>render data</textarea>
@@ -154,12 +157,13 @@
 		<textarea class="form-control vfill" rows="25" placeholder="" id=render_xml>render xml</textarea>
 	</div>
 	<div class="col-md-4">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<a href="#" class="btn btn-default" id="send_query">send query</a>
+			<a href="#" class="btn btn-default" id="send_queryasync">async</a>
 		</div>
-		<div class="input-group col-md-8">
+		<div class="input-group col-md-6">
 		  <input type="text" class="form-control pull-right" id="save_result_fileprefix">
-		  <a href="#" class="btn btn-default input-group-addon" id="save_result">save query&result</a>
+		  <a href="#" class="btn btn-default input-group-addon" id="save_result">save query&res</a>
 		</div>
 
 		<br>

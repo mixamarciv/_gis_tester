@@ -8,12 +8,18 @@
 @CLS
 
 @echo === install ===================================================================
-go get github.com/gorilla/mux
-go get github.com/satori/go.uuid
-go get "github.com/parnurzeal/gorequest"
-go get "github.com/palantir/stacktrace"
+go get -u "github.com/gorilla/mux"
+go get -u "github.com/satori/go.uuid"
+go get -u "github.com/parnurzeal/gorequest"
+go get -u "github.com/palantir/stacktrace"
+go get -u "github.com/gosuri/uilive"
 
-::go install
+
+::библиотека для работы с XMLками
+go get -u "github.com/jteeuwen/go-pkg-xmlx"
+
+
+go install
 
 @echo ==== end ======================================================================
 @PAUSE
