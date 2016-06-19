@@ -50,7 +50,6 @@ func ajax_sendqueryasync(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_, body, errs := req.Send(string(json_str)).End()
-	//_, body, errs := req.Set("xml", xml).Set("data", data).Set("json_str", "").End()
 
 	if checkErrors("request send error", errs, w) {
 		return

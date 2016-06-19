@@ -9,4 +9,7 @@
 ,"FIASHouseGuid" : "3db255a7-1325-4416-8c31-946aa3b150ef"
 ,"FIASHouseGuid_mira1" : "3db255a7-1325-4416-8c31-946aa3b150ef"
 ,"FIASHouseGuid_mira19" : "374bb4a5-9715-41f9-9ead-84666060338a"
+
+,"signserv":"http://192.168.1.23:8001/sign"
+,"signname":"guk0001"
 }
